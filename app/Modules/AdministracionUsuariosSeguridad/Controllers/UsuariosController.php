@@ -140,7 +140,7 @@ class UsuariosController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Usuario eliminado exitosamente'
+            'message' => 'Usuario desactivado exitosamente'
         ]);
     }
 

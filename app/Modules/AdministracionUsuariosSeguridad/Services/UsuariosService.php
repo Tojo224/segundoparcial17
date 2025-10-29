@@ -22,6 +22,11 @@ class UsuariosService
     {
         $query = Usuario::query();
 
+        // Por defecto, solo usuarios activos (estado = true)
+        if (!array_key_exists('estado', $filters)) {
+            $query->where('estado', true);
+        }
+
         if (!empty($filters['nombre'])) {
             $query->where('nombre', 'like', '%' . $filters['nombre'] . '%');
         }
@@ -48,6 +53,11 @@ class UsuariosService
     public function paginate(int $perPage = 15, array $filters = []): LengthAwarePaginator
     {
         $query = Usuario::query();
+
+        // Por defecto, solo usuarios activos (estado = true)
+        if (!array_key_exists('estado', $filters)) {
+            $query->where('estado', true);
+        }
 
         if (!empty($filters['nombre'])) {
             $query->where('nombre', 'like', '%' . $filters['nombre'] . '%');
@@ -121,7 +131,9 @@ class UsuariosService
             return false;
         }
 
-        return (bool) $usuario->delete();
+        // Borrado lógico: marcar estado=false
+        $usuario->estado = false;
+        return (bool) $usuario->save();
     }
 
     /**

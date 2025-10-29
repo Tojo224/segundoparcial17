@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 namespace App\Modules\AdministracionUsuariosSeguridad\Models;
 
@@ -8,14 +8,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\database\Eloquenrt\Model;
 
-class Usuario extends Authenticatable
+class Usuario extends Model
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
-
-    protected $table = 'usuario';
-    protected $primaryKey = 'id_usuario';
-    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -23,7 +19,7 @@ class Usuario extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'ci',
+        'CI',
         'nombre',
         'telefono',
         'direccion',
@@ -31,7 +27,7 @@ class Usuario extends Authenticatable
         'sexo',
         'estado_civil',
         'estado',
-        'contraseña',
+        'contraseÃ±a',
         'id_rol',
     ];
     public function rol()
@@ -44,7 +40,7 @@ class Usuario extends Authenticatable
      * @var list<string>
      */
     protected $hidden = [
-        'contraseña',
+        'contraseÃ±a',
         'remember_token',
     ];
 
@@ -57,12 +53,8 @@ class Usuario extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'contraseña' => 'hashed',
+            'contraseÃ±a' => 'hashed',
         ];
     }
-
-    public function getAuthPassword()
-    {
-        return $this->attributes['contraseña'] ?? null;
-    }
 }
+
