@@ -6,6 +6,12 @@ use App\Modules\AdministracionUsuariosSeguridad\Controllers\{
     UsuariosController,
     BitacoraController
 };
+use App\Modules\GestionAcademica\Controllers\{
+    DocentesController,
+    MateriasController,
+    GruposController,
+    CargaHorariaController
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -35,4 +41,41 @@ Route::prefix('usuarios')->group(function () {
 Route::prefix('bitacora')->group(function () {
     Route::get('/', [BitacoraController::class, 'index']);       // Listar acciones
     Route::get('/{id}', [BitacoraController::class, 'show']);    // Ver detalle
+});
+
+/*
+|--------------------------------------------------------------------------
+| RUTAS API — Gestión Académica
+|--------------------------------------------------------------------------
+*/
+Route::prefix('docentes')->group(function () {
+    Route::get('/', [DocentesController::class, 'index']);
+    Route::get('/{id}', [DocentesController::class, 'show']);
+    Route::post('/', [DocentesController::class, 'store']);
+    Route::put('/{id}', [DocentesController::class, 'update']);
+    Route::delete('/{id}', [DocentesController::class, 'destroy']);
+});
+
+Route::prefix('materias')->group(function () {
+    Route::get('/', [MateriasController::class, 'index']);
+    Route::get('/{id}', [MateriasController::class, 'show']);
+    Route::post('/', [MateriasController::class, 'store']);
+    Route::put('/{id}', [MateriasController::class, 'update']);
+    Route::delete('/{id}', [MateriasController::class, 'destroy']);
+});
+
+Route::prefix('grupos')->group(function () {
+    Route::get('/', [GruposController::class, 'index']);
+    Route::get('/{id}', [GruposController::class, 'show']);
+    Route::post('/', [GruposController::class, 'store']);
+    Route::put('/{id}', [GruposController::class, 'update']);
+    Route::delete('/{id}', [GruposController::class, 'destroy']);
+});
+
+Route::prefix('carga-horaria')->group(function () {
+    Route::get('/', [CargaHorariaController::class, 'index']);
+    Route::get('/{id}', [CargaHorariaController::class, 'show']);
+    Route::post('/', [CargaHorariaController::class, 'store']);
+    Route::put('/{id}', [CargaHorariaController::class, 'update']);
+    Route::delete('/{id}', [CargaHorariaController::class, 'destroy']);
 });
