@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Modules\AdministracionUsuariosSeguridad\Services\AuthService;
+use App\Modules\AdministracionUsuariosSeguridad\Services\BitacoraService;
 
 class LoginController extends Controller
 {
@@ -14,11 +15,17 @@ class LoginController extends Controller
         protected AuthService $auth
     ) {}
 
+    /**
+     * Mostrar formulario de inicio de sesión
+     */
     public function showLoginForm()
     {
         return view('administracion_usuarios_seguridad.auth.login');
     }
 
+    /**
+     * Iniciar sesión de usuario
+     */
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -46,11 +53,24 @@ class LoginController extends Controller
         return redirect()->intended($target);
     }
 
+    /**
+     * Cerrar sesión del usuario y registrar en bitácora
+     */
     public function logout(Request $request)
     {
+        $bitacora = app(BitacoraService::class);
+        $usuario = Auth::user();
+
+        if ($usuario) {
+            // Registrar acción de cierre de sesión
+            $bitacora->registrar("{$usuario->nombre} cerró sesión en el sistema", $usuario->id_usuario);
+        }
+
+        // Cerrar sesión y limpiar sesión
         $this->auth->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect('/login');
     }
 }

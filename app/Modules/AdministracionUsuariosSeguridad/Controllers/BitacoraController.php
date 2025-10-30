@@ -43,4 +43,10 @@ class BitacoraController extends Controller
             'data' => $bitacora
         ]);
     }
+    public function vistaBitacora()
+    {
+        $bitacoras = $this->bitacoraService->listar(30);
+        return view('bitacora', compact('bitacoras'));
+    }
+
 }
