@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Modules\AdministracionUsuariosSeguridad\Controllers\Auth\LoginController;
 use App\Modules\AdministracionUsuariosSeguridad\Controllers\UsuariosController;
 use App\Modules\AdministracionUsuariosSeguridad\Controllers\BitacoraController;
+use App\Modules\GestionAcademica\Controllers\DocentesController;
 
 Route::get('/', function () { return redirect('/login'); });
 
@@ -21,13 +22,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/docente', fn () => view('administracion_usuarios_seguridad.dashboard'))->name('docente.dashboard');
     Route::get('/home', fn () => view('administracion_usuarios_seguridad.dashboard'))->name('home');
 
-    // ✅ Vista dinámica de gestión de usuarios
+    // Vista dinámica de gestión de usuarios
     Route::get('/usuarios', [UsuariosController::class, 'vistaUsuarios'])->name('usuarios.vista');
     Route::post('/usuarios', [UsuariosController::class, 'store'])->name('usuarios.store');
     Route::put('/usuarios/{id}', [UsuariosController::class, 'update'])->name('usuarios.update');
     Route::delete('/usuarios/{id}', [UsuariosController::class, 'destroy'])->name('usuarios.destroy');
 
     Route::get('/bitacora', [BitacoraController::class, 'vistaBitacora'])->name('bitacora.vista');
+    
+    Route::get('/docentes', [DocentesController::class, 'vistaDocentes'])->name('docentes.vista');
+    Route::post('/docentes', [DocentesController::class, 'store'])->name('docentes.store');
     
 
 });
