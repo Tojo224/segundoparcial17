@@ -41,7 +41,6 @@ class DocentesController extends Controller
             'nit' => 'nullable|string|max:30',
             'maestria' => 'nullable|string|max:100',
             'carrera' => 'required|string|max:100',
-            'id_usuario' => 'nullable|exists:usuario,id_usuario',
         ]);
         if ($v->fails()) return response()->json(['success'=>false,'errors'=>$v->errors()],422);
         $item = $this->service->create($v->validated());
@@ -95,7 +94,7 @@ class DocentesController extends Controller
             'carrera' => 'required|string|max:100',
 
             // Campos de usuario
-            'CI' => 'required|string|max:20|unique:usuario,CI',
+            'CI' => 'required|string|max:20|unique:usuario,ci',
             'nombre' => 'required|string|max:255',
             'telefono' => 'nullable|string|max:20',
             'direccion' => 'nullable|string|max:255',
@@ -110,39 +109,47 @@ class DocentesController extends Controller
 
         $data = $v->validated();
 
-        // Crear usuario automáticamente
-        $usuario = \App\Modules\AdministracionUsuariosSeguridad\Models\Usuario::create([
-            'CI' => $data['CI'],
-            'nombre' => $data['nombre'],
-            'telefono' => $data['telefono'] ?? null,
-            'direccion' => $data['direccion'] ?? null,
-            'correo' => $data['correo'],
-            'sexo' => $data['sexo'],
-            'estado_civil' => $data['estado_civil'],
-            'estado' => true,
-            'contraseña' => bcrypt($data['CI']), // Contraseña = CI (autogenerada)
-            'id_rol' => 3 // por ejemplo, rol docente
-        ]);
+        try {
+            // Crear usuario automáticamente
+            $usuario = \App\Modules\AdministracionUsuariosSeguridad\Models\Usuario::create([
+                'ci' => $data['CI'],
+                'nombre' => $data['nombre'],
+                'telefono' => $data['telefono'] ?? null,
+                'direccion' => $data['direccion'] ?? null,
+                'correo' => $data['correo'],
+                'sexo' => $data['sexo'],
+                'estado_civil' => $data['estado_civil'],
+                'estado' => true,
+                'contraseña' => bcrypt($data['CI']), // Contraseña = CI (autogenerada)
+                'id_rol' => 3 // por ejemplo, rol docente
+            ]);
 
-        // Crear docente vinculado al usuario
-        $docente = $this->service->create([
-            'cod_docente' => $data['cod_docente'],
-            'nit' => $data['nit'] ?? null,
-            'maestria' => $data['maestria'] ?? null,
-            'carrera' => $data['carrera'],
-            'id_usuario' => $usuario->id_usuario
-        ]);
-         //  Registrar en bitácora
-        $usuarioActual = Auth::user();
-        if ($usuarioActual) {
-            $this->bitacoraService->registrar(
-                "{$usuarioActual->nombre} registró al docente {$usuario->nombre} ({$docente->cod_docente})",
-                $usuarioActual->id_usuario
-            );
+            // Crear docente vinculado al usuario
+            $docente = $this->service->create([
+                'cod_docente' => $data['cod_docente'],
+                'nit' => $data['nit'] ?? null,
+                'maestria' => $data['maestria'] ?? null,
+                'carrera' => $data['carrera'],
+                'id_usuario' => $usuario->id_usuario
+            ]);
+            
+            // Registrar en bitácora
+            $usuarioActual = Auth::user();
+            if ($usuarioActual) {
+                $this->bitacoraService->registrar(
+                    "{$usuarioActual->nombre} registró al docente {$usuario->nombre} ({$docente->cod_docente})",
+                    $usuarioActual->id_usuario
+                );
+            }
+            
+            return redirect()
+                ->route('docentes.vista')
+                ->with('success', 'Docente y usuario creados correctamente.');
+        } catch (\Exception $e) {
+            return back()
+                ->withErrors(['error' => 'Error al guardar: ' . $e->getMessage()])
+                ->withInput();
         }
-        return redirect()
-            ->route('docentes.vista')
-            ->with('success', 'Docente y usuario creados correctamente.');
     }
 
 }

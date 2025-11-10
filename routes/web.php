@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/bitacora', [BitacoraController::class, 'vistaBitacora'])->name('bitacora.vista');
     
     Route::get('/docentes', [DocentesController::class, 'vistaDocentes'])->name('docentes.vista');
-    Route::post('/docentes', [DocentesController::class, 'store'])->name('docentes.store');
+    Route::post('/docentes', [DocentesController::class, 'storeWeb'])->name('docentes.store');
     
 
 });

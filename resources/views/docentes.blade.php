@@ -53,6 +53,30 @@
       <p class="text-slate-500">Administre la información y carga horaria de los docentes</p>
     </header>
 
+    @if (session('success'))
+      <div class="bg-green-50 border border-green-200 rounded-lg p-4 flex items-start gap-3">
+        <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+        </svg>
+        <div>
+          <h3 class="font-semibold text-green-800">¡Éxito!</h3>
+          <p class="text-green-700">{{ session('success') }}</p>
+        </div>
+      </div>
+    @endif
+
+    @if (session('error'))
+      <div class="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start gap-3">
+        <svg class="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+        </svg>
+        <div>
+          <h3 class="font-semibold text-red-800">Error</h3>
+          <p class="text-red-700">{{ session('error') }}</p>
+        </div>
+      </div>
+    @endif
+
     <!-- Botón Volver -->
     <div>
       <a href="{{ route('home') }}"
@@ -138,14 +162,25 @@
         <h2 class="text-xl font-semibold">Agregar Nuevo Docente</h2>
         <p class="text-slate-500 text-sm">Complete la información del docente</p>
 
+        @if ($errors->any())
+          <div class="bg-red-50 border border-red-200 rounded-md p-3">
+            <p class="text-red-800 font-semibold text-sm mb-2">Errores de validación:</p>
+            <ul class="text-red-700 text-sm space-y-1">
+              @foreach ($errors->all() as $error)
+                <li>• {{ $error }}</li>
+              @endforeach
+            </ul>
+          </div>
+        @endif
+
         <div>
-          <label class="text-sm font-medium">Código *</label>
+          <label class="text-sm font-medium">Código Docente *</label>
           <input type="text" name="cod_docente" value="{{ old('cod_docente') }}" required
                  class="w-full border rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
         </div>
 
         <div>
-          <label class="text-sm font-medium">NIT *</label>
+          <label class="text-sm font-medium">NIT</label>
           <input type="text" name="nit" value="{{ old('nit') }}"
                  class="w-full border rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
         </div>
@@ -157,13 +192,13 @@
         </div>
 
         <div>
-          <label class="text-sm font-medium">Cédula de Identidad *</label>
+          <label class="text-sm font-medium">Cédula de Identidad (CI) *</label>
           <input type="text" name="CI" value="{{ old('CI') }}" required
                  class="w-full border rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
         </div>
 
         <div>
-          <label class="text-sm font-medium">Correo *</label>
+          <label class="text-sm font-medium">Correo Electrónico *</label>
           <input type="email" name="correo" value="{{ old('correo') }}" required
                  class="w-full border rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
         </div>
