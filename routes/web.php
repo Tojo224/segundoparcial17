@@ -5,6 +5,8 @@ use App\Modules\AdministracionUsuariosSeguridad\Controllers\Auth\LoginController
 use App\Modules\AdministracionUsuariosSeguridad\Controllers\UsuariosController;
 use App\Modules\AdministracionUsuariosSeguridad\Controllers\BitacoraController;
 use App\Modules\GestionAcademica\Controllers\DocentesController;
+use App\Modules\GestionAcademica\Controllers\MateriasController;
+use App\Modules\GestionAcademica\Controllers\GruposController;
 
 Route::get('/', function () { return redirect('/login'); });
 
@@ -33,7 +35,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/docentes', [DocentesController::class, 'vistaDocentes'])->name('docentes.vista');
     Route::post('/docentes', [DocentesController::class, 'storeWeb'])->name('docentes.store');
     
+    Route::get('/materias', [MateriasController::class, 'vistaMaterias'])->name('materias.vista');
+    Route::post('/materias', [MateriasController::class, 'storeWeb'])->name('materias.store');
+    Route::put('/materias/{id}', [MateriasController::class, 'updateWeb'])->name('materias.update');
+    Route::delete('/materias/{id}', [MateriasController::class, 'destroyWeb'])->name('materias.destroy');
 
+    Route::get('/grupos', [GruposController::class, 'vistaGrupos'])->name('grupos.vista');
+    Route::get('/grupos/{id}/edit', [GruposController::class, 'edit'])->name('grupos.edit');
+    Route::post('/grupos', [GruposController::class, 'storeWeb'])->name('grupos.store');
+    Route::put('/grupos/{id}', [GruposController::class, 'updateWeb'])->name('grupos.update'); 
+    Route::delete('/grupos/{id}', [GruposController::class, 'destroyWeb'])->name('grupos.destroy');
 });
 
 // Cargar rutas API (roles, usuarios, bitácora)

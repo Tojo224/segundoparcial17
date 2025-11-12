@@ -190,8 +190,29 @@
               </a>
             </li>
 
-            <li><a href="#" data-role="CU7" class="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-white/5"><svg class="h-5 w-5 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h10M4 18h10"/></svg>Gestionar materias</a></li>
-            <li><a href="#" data-role="CU8" class="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-white/5"><svg class="h-5 w-5 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h10M7 16h6"/></svg>Gestionar grupos</a></li>
+            <li>
+              <a href="{{ route('materias.vista') }}"
+                data-role="CU7"
+                class="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-white/5
+                      {{ request()->routeIs('materias.vista') ? 'bg-white/5' : '' }}">
+                <svg class="h-5 w-5 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 6h16M4 10h16M4 14h10M4 18h10"/>
+                </svg>
+                Gestionar materias
+              </a>
+            </li>
+            <li>
+              <a href="{{ route('grupos.vista') }}" data-role="CU8"
+                class="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-white/5">
+                <svg class="h-5 w-5 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 6h16M4 10h16M4 14h10M4 18h10"/>
+                </svg>
+                Gestionar grupos
+              </a>
+            </li>
+
             <li><a href="#" data-role="CU9" class="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-white/5"><svg class="h-5 w-5 opacity-80" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6.75A1.75 1.75 0 0 1 5.75 5h12.5A1.75 1.75 0 0 1 20 6.75v10.5A1.75 1.75 0 0 1 18.25 19H5.75A1.75 1.75 0 0 1 4 17.25V6.75Zm3 2.5h10v6.5H7v-6.5Z"/></svg>Gestionar carga horaria</a></li>
             <li><a href="#" data-role="CU10" class="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-white/5"><svg class="h-5 w-5 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>Asignar grupos a docentes</a></li>
           </ul>

@@ -35,6 +35,13 @@ class GruposService
         if (!empty($filters['id_materia'])) {
             $q->where('id_materia', $filters['id_materia']);
         }
+        // Buscar por nombre o sigla de materia
+        if (!empty($filters['buscar_materia'])) {
+            $q->whereHas('materia', function ($query) use ($filters) {
+                $query->where('nombre', 'like', '%'.$filters['buscar_materia'].'%')
+                      ->orWhere('sigla', 'like', '%'.$filters['buscar_materia'].'%');
+            });
+        }
         return $q->paginate($perPage);
     }
 
