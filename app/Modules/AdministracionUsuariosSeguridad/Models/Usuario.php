@@ -6,7 +6,6 @@ namespace App\Modules\AdministracionUsuariosSeguridad\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\database\Eloquenrt\Model;
 
 class Usuario extends Authenticatable
 {
@@ -33,6 +32,7 @@ class Usuario extends Authenticatable
         'estado',
         'contraseña',
         'id_rol',
+        'cambiar_contra',
     ];
     public function rol()
     {
@@ -58,6 +58,7 @@ class Usuario extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'contraseña' => 'hashed',
+            'cambiar_contra' => 'boolean',
         ];
     }
 

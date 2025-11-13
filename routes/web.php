@@ -15,6 +15,12 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+// Cambio de contraseña al primer login
+Route::middleware('auth')->group(function () {
+    Route::get('/change-password', [LoginController::class, 'showChangePasswordForm'])->name('change-password.show');
+    Route::post('/change-password', [LoginController::class, 'storeNewPassword'])->name('change-password.store');
+});
+
 // Dashboards por rol
 Route::middleware('auth')->group(function () {
     Route::get('/admin', fn () => view('administracion_usuarios_seguridad.dashboard'))->name('admin.dashboard');
